@@ -48,6 +48,10 @@ public class UserController : ControllerBase
     [HttpPut("{email}")]
     public IActionResult Update(string email, [FromBody]User user)
     {
+        if (!_service.UserExists(email))
+        {
+            return NotFound();
+        }
         try
         {
             _service.UpdateUser(user);
