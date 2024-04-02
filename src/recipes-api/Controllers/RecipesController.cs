@@ -59,12 +59,6 @@ public class RecipesController : ControllerBase
     [HttpPut("{name}")]
     public IActionResult Update(string name, [FromBody]Recipe recipe)
     {
-        // if (_service.RecipeExists(name))
-        // {
-        //     return BadRequest();
-        // }
-        // _service.UpdateRecipe(recipe);
-        // return NoContent();
         try
         {
             _service.UpdateRecipe(recipe);
@@ -80,14 +74,11 @@ public class RecipesController : ControllerBase
     [HttpDelete("{name}")]
     public IActionResult Delete(string name)
     {
-        try
+        if (_service.RecipeExists(name))
         {
             _service.DeleteRecipe(name);
+            return NoContent();
         }
-        catch (System.Exception)
-        {
-            return NotFound();
-        }
-        return NoContent();
+        return NotFound();
     }    
 }
